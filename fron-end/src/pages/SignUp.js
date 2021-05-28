@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import { signUpUser } from '../networks/Api'
 
 export default function SignUp() {
@@ -6,14 +7,18 @@ export default function SignUp() {
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
 
+    const history = useHistory()
+
     const onSubmit = async (e) => {
         e.preventDefault()
         var res = await signUpUser({ userName, email, password })
         if (res.data.success) {
-            alert("You have successfully registered.")
+            localStorage.setItem('signup', true)
+            history.push('/login')
         } else {
             alert(res.data.msg)
         }
+
     }
 
     return (
